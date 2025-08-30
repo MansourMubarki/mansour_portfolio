@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-md-5">
+    <div class="p-4 bg-white border rounded-4 shadow-sm">
+      <h4 class="fw-bold mb-3">إضافة قسم</h4>
+      <form method="post">
+        <div class="mb-3">
+          <label class="form-label">اسم القسم</label>
+          <input name="name" class="form-control" placeholder="مثال: آراء العملاء" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Slug</label>
+          <input name="slug" class="form-control" placeholder="testimonials" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">الترتيب</label>
+          <input name="sort_order" type="number" value="0" class="form-control">
+        </div>
+        <button class="btn btn-primary" style="background:var(--primary); border:none">إضافة</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="p-4 bg-white border rounded-4 shadow-sm">
+      <h4 class="fw-bold mb-3">القائمة</h4>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr><th>#</th><th>الاسم</th><th>Slug</th><th>الحالة</th><th>ترتيب</th><th>محتوى</th><th></th></tr>
+          </thead>
+          <tbody>
+            {% for s in sections %}
+            <tr>
+              <td>{{ s.id }}</td>
+              <td>{{ s.name }}</td>
+              <td><code>{{ s.slug }}</code></td>
+              <td>
+                <a class="btn btn-sm {{ 'btn-success' if s.is_enabled else 'btn-outline-secondary' }}" href="{{ url_for('toggle_section', section_id=s.id) }}">
+                  {{ 'مفعل' if s.is_enabled else 'معطل' }}
+                </a>
+              </td>
+              <td>{{ s.sort_order }}</td>
+              <td><a class="btn btn-sm btn-outline-primary" href="{{ url_for('admin_blocks', section_id=s.id) }}">إدارة المحتوى</a></td>
+              <td><a class="btn btn-sm btn-outline-danger" href="{{ url_for('delete_section', section_id=s.id) }}" onclick="return confirm('حذف القسم؟')">حذف</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

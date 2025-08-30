@@ -1,0 +1,6 @@
+:root { --primary: #0ea5e9; }
+.display-5.fw-extrabold { font-weight: 800; }
+.btn-primary { background: var(--primary) !important; border: none; }
+a { color: var(--primary); }
+a:hover { opacity: .9; }
+.card, .rounded-4 { border-radius: 1rem !important; }

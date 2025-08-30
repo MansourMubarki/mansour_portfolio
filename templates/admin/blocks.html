@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="fw-bold mb-3">محتوى قسم: {{ section.name }} ({{ section.slug }})</h3>
+<div class="row g-4">
+  <div class="col-md-5">
+    <div class="p-4 bg-white border rounded-4 shadow-sm">
+      <form method="post" enctype="multipart/form-data">
+        <div class="mb-2"><label class="form-label">العنوان</label><input name="title" class="form-control"></div>
+        <div class="mb-2"><label class="form-label">العنوان الفرعي</label><input name="subtitle" class="form-control"></div>
+        <div class="mb-2"><label class="form-label">النص</label><textarea name="body" rows="4" class="form-control"></textarea></div>
+        <div class="mb-2"><label class="form-label">أيقونة (نصية)</label><input name="icon" class="form-control" placeholder="palette/camera/code"></div>
+        <div class="mb-2"><label class="form-label">صورة</label><input type="file" name="image" class="form-control"></div>
+        <div class="mb-2"><label class="form-label">نص الزر</label><input name="button_text" class="form-control"></div>
+        <div class="mb-2"><label class="form-label">رابط الزر</label><input name="button_url" class="form-control" placeholder="https://"></div>
+        <div class="mb-2">
+          <label class="form-label">التخطيط</label>
+          <select name="layout" class="form-select">
+            <option value="card">بطاقة</option>
+            <option value="text-center">نص وسط</option>
+            <option value="text-left-image-right">نص يسار - صورة يمين</option>
+          </select>
+        </div>
+        <div class="mb-2"><label class="form-label">الترتيب</label><input type="number" name="sort_order" value="0" class="form-control"></div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" name="is_published" id="pub" checked>
+          <label class="form-check-label" for="pub">نشر</label>
+        </div>
+        <button class="btn btn-primary w-100" style="background:var(--primary); border:none">إضافة</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="p-4 bg-white border rounded-4 shadow-sm">
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead><tr><th>#</th><th>العنوان</th><th>تخطيط</th><th>نشر</th><th>ترتيب</th><th></th></tr></thead>
+          <tbody>
+            {% for b in blocks %}
+            <tr>
+              <td>{{ b.id }}</td>
+              <td>{{ b.title }}</td>
+              <td>{{ b.layout }}</td>
+              <td>{{ 'نعم' if b.is_published else 'لا' }}</td>
+              <td>{{ b.sort_order }}</td>
+              <td><a class="btn btn-sm btn-outline-danger" href="{{ url_for('delete_block', block_id=b.id) }}" onclick="return confirm('حذف المحتوى؟')">حذف</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

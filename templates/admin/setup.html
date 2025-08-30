@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="p-4 bg-white border rounded-4 shadow-sm">
+      <h3 class="fw-bold mb-3 text-center">إنشاء حساب الإدمن</h3>
+      <form method="post">
+        <div class="mb-3">
+          <label class="form-label">اسم المستخدم</label>
+          <input name="username" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">كلمة المرور</label>
+          <input type="password" name="password" class="form-control" required>
+        </div>
+        <button class="btn btn-primary w-100" style="background:var(--primary); border:none">حفظ</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

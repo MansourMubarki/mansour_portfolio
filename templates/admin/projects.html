@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-md-5">
+    <div class="p-4 bg-white border rounded-4 shadow-sm">
+      <h4 class="fw-bold mb-3">إضافة مشروع</h4>
+      <form method="post" enctype="multipart/form-data">
+        <div class="mb-2"><label class="form-label">العنوان</label><input name="title" class="form-control" required></div>
+        <div class="mb-2"><label class="form-label">الوصف</label><textarea name="description" rows="3" class="form-control"></textarea></div>
+        <div class="mb-2"><label class="form-label">الوسوم (مفصولة بفواصل)</label><input name="tags" class="form-control" placeholder="Flask,SQLite,Fly.io"></div>
+        <div class="mb-2"><label class="form-label">رابط العرض</label><input name="link" class="form-control" placeholder="https://"></div>
+        <div class="mb-2"><label class="form-label">رابط الكود</label><input name="code_link" class="form-control" placeholder="https://"></div>
+        <div class="mb-2"><label class="form-label">الصورة</label><input type="file" name="image" class="form-control"></div>
+        <div class="mb-2"><label class="form-label">الترتيب</label><input type="number" name="sort_order" value="0" class="form-control"></div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" name="is_published" id="pub" checked>
+          <label class="form-check-label" for="pub">نشر</label>
+        </div>
+        <button class="btn btn-primary w-100" style="background:var(--primary); border:none">إضافة</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="p-4 bg-white border rounded-4 shadow-sm">
+      <h4 class="fw-bold mb-3">المشاريع</h4>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead><tr><th>#</th><th>العنوان</th><th>منشور</th><th>ترتيب</th><th></th></tr></thead>
+          <tbody>
+            {% for p in projects %}
+            <tr>
+              <td>{{ p.id }}</td>
+              <td>{{ p.title }}</td>
+              <td>{{ 'نعم' if p.is_published else 'لا' }}</td>
+              <td>{{ p.sort_order }}</td>
+              <td><a class="btn btn-sm btn-outline-danger" href="{{ url_for('delete_project', project_id=p.id) }}" onclick="return confirm('حذف المشروع؟')">حذف</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="p-4 bg-white border rounded-4 shadow-sm h-100">
+      <h5 class="fw-bold mb-1">الأقسام</h5>
+      <div class="display-6">{{ stats.sections }}</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="p-4 bg-white border rounded-4 shadow-sm h-100">
+      <h5 class="fw-bold mb-1">محتوى</h5>
+      <div class="display-6">{{ stats.blocks }}</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="p-4 bg-white border rounded-4 shadow-sm h-100">
+      <h5 class="fw-bold mb-1">المشاريع</h5>
+      <div class="display-6">{{ stats.projects }}</div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mt-4">
+  <div class="col-auto"><a class="btn btn-outline-primary" href="{{ url_for('admin_sections') }}">إدارة الأقسام</a></div>
+  <div class="col-auto"><a class="btn btn-outline-primary" href="{{ url_for('admin_projects') }}">إدارة الأعمال</a></div>
+  <div class="col-auto"><a class="btn btn-outline-primary" href="{{ url_for('admin_settings') }}">الإعدادات</a></div>
+  <div class="col-auto"><a class="btn btn-outline-secondary" href="{{ url_for('export_json') }}">تصدير JSON</a></div>
+</div>
+{% endblock %}

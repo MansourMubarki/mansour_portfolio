@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="hero" class="py-5">
+  <div class="row align-items-center g-4">
+    <div class="col-lg-7">
+      <h1 class="display-5 fw-extrabold" style="line-height:1.2">
+        {{ get_setting('hero_title','') }}
+      </h1>
+      <p class="lead text-secondary mb-4">{{ get_setting('hero_subtitle','') }}</p>
+      {% if get_setting('hero_button_text','') %}
+        <a href="{{ get_setting('hero_button_url','#contact') }}" class="btn btn-lg text-white" style="background:var(--primary); border:none">
+          {{ get_setting('hero_button_text','') }}
+        </a>
+      {% endif %}
+    </div>
+    <div class="col-lg-5">
+      <div class="rounded-4 p-4 border bg-white shadow-sm">
+        <div class="ratio ratio-16x9 rounded-3 bg-light d-flex align-items-center justify-content-center">
+          <div class="text-center">
+            <div class="spinner-border mb-3" role="status"></div>
+            <div>ضع صورة/فيديو تعريفي من لوحة التحكم</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% for s in sections if s.slug!='hero' %}
+  <section id="{{ s.slug }}" class="py-5">
+    <h2 class="mb-4 fw-bold">{{ s.name }}</h2>
+    {% if s.slug == 'about' %}
+      {% for b in blocks['about'] %}
+        <div class="p-4 bg-white border rounded-4 shadow-sm">
+          <h3 class="fw-bold">{{ b.title }}</h3>
+          <p class="text-secondary">{{ b.subtitle }}</p>
+          <p style="white-space:pre-line">{{ b.body }}</p>
+        </div>
+      {% endfor %}
+    {% elif s.slug == 'services' %}
+      <div class="row g-4">
+        {% for b in blocks['services'] %}
+          <div class="col-md-4">
+            <div class="p-4 bg-white border rounded-4 h-100 shadow-sm">
+              <div class="fs-3 mb-2">🔹</div>
+              <h4 class="fw-bold">{{ b.title }}</h4>
+              <p class="text-secondary mb-0">{{ b.body }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% elif s.slug == 'portfolio' %}
+      <div class="row g-4">
+        {% for p in projects %}
+          <div class="col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+              {% if p.image %}
+                <img src="{{ url_for('static', filename=p.image.split('static/')[-1]) }}" class="card-img-top rounded-top-4" alt="">
+              {% else %}
+                <div class="ratio ratio-16x9 bg-light rounded-top-4"></div>
+              {% endif %}
+              <div class="card-body">
+                <h5 class="card-title fw-bold">{{ p.title }}</h5>
+                <p class="card-text text-secondary">{{ p.description }}</p>
+                <div class="d-flex gap-2 flex-wrap mb-2">
+                  {% for t in (p.tags or '').split(',') if t.strip() %}
+                    <span class="badge text-bg-light border">{{ t.strip() }}</span>
+                  {% endfor %}
+                </div>
+                <div class="d-flex gap-2">
+                  {% if p.link %}<a href="{{ p.link }}" class="btn btn-sm btn-outline-primary">عرض</a>{% endif %}
+                  {% if p.code_link %}<a href="{{ p.code_link }}" class="btn btn-sm btn-outline-secondary">الكود</a>{% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% elif s.slug == 'contact' %}
+      <div class="p-4 bg-white border rounded-4 shadow-sm">
+        <p class="mb-2">راسلني:</p>
+        <ul class="list-unstyled">
+          {% if get_setting('email','') %}<li>✉️ {{ get_setting('email','') }}</li>{% endif %}
+          {% if get_setting('whatsapp','') %}<li>📱 واتساب: {{ get_setting('whatsapp','') }}</li>{% endif %}
+        </ul>
+      </div>
+    {% else %}
+      {% for b in blocks[s.slug] %}
+        <div class="p-4 bg-white border rounded-4 shadow-sm mb-3">
+          <h4 class="fw-bold">{{ b.title }}</h4>
+          <p class="text-secondary">{{ b.subtitle }}</p>
+          <p style="white-space:pre-line">{{ b.body }}</p>
+          {% if b.button_text %}<a class="btn btn-primary" style="background:var(--primary); border:none" href="{{ b.button_url }}">{{ b.button_text }}</a>{% endif %}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </section>
+{% endfor %}
+{% endblock %}
